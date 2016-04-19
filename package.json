@@ -1,6 +1,6 @@
 {
   "name": "q-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "jsnext:main": "src.js",
@@ -10,10 +10,12 @@
     "start": "rollup -c",
     "deploy": "git add . && git commit -am 'fix' && git push && npm publish"
   },
+  "dependencies": {
+    "q-global": "^1.0.0"  
+  },
   "devDependencies": {
     "rollup": "*",
-    "rollup-plugin-node-resolve": "*",
-    "q-global": "^1.0.0"
+    "rollup-plugin-node-resolve": "*"
   },
   "repository": {
     "type": "git",
