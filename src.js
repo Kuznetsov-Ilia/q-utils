@@ -1,5 +1,5 @@
 // inherit.js https://gist.github.com/RubaXa/8857525
-import {window, html as HTML} from 'q-global';
+import {window, html as HTML} from 'my-global';
 
 export var extend = Object.assign;
 
