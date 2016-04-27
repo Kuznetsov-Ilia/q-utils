@@ -191,6 +191,35 @@ function strip_tags(str) {
   return str.replace(stripTagsRegExp, '');
 }
 
+
+function toRadix(N,radix) {
+  var HexN = '';
+  var Q=Math.floor(Math.abs(N));
+  var R;
+  while (true) {
+    R = Q % radix;
+    HexN = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_'.charAt(R) + HexN;
+    Q = (Q - R) / radix; 
+    if (Q === 0) {
+      break;
+    }
+  }
+  return ((N < 0) ? '-' + HexN : HexN);
+}
+
+
+function stringHash(str) {
+  var hash = 5381;
+  var i = str.length;
+  while(i) {
+    hash = (hash * 33) ^ str.charCodeAt(--i);
+  }
+  /* JavaScript does bitwise operations (like XOR, above) on 32-bit signed
+   * integers. Since we want the results to be always positive, convert the
+   * signed int to an unsigned by doing an unsigned bitshift. */
+  return hash >>> 0;
+}
+
 exports.extend = extend;
 exports.isObject = isObject;
 exports.isEmpty = isEmpty;
@@ -218,3 +247,5 @@ exports.throttle = throttle;
 exports.debounce = debounce;
 exports.encode = encode;
 exports.strip_tags = strip_tags;
+exports.toRadix = toRadix;
+exports.stringHash = stringHash;
