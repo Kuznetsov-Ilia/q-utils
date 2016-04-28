@@ -1,7 +1,6 @@
 'use strict';
 
-var _window = self || window;
-var head = document.head || document.getElementsByTagName('head')[0];
+var myGlobal = require('my-global');
 
 var extend = Object.assign;
 
@@ -24,7 +23,7 @@ function isRegExp(value) {
   return isset(value) && value instanceof RegExp;
 }
 function isNode(value) {
-  return value instanceof _window.Node;
+  return value instanceof myGlobal.window.Node;
 }
 if (!Array.isArray) {
   var op2str = Object.prototype.toString;
@@ -54,7 +53,7 @@ function isEqual(input1, input2) {
   return input1 === input2 || JSON.stringify(input1) === JSON.stringify(input2);
 }
 function isFragment(node) {
-  return isset(node) && node.nodeType === _window.Node.DOCUMENT_FRAGMENT_NODE;
+  return isset(node) && node.nodeType === myGlobal.window.Node.DOCUMENT_FRAGMENT_NODE;
 }
 var now = Date.now ? Date.now : function () {
   return Number(new Date());
