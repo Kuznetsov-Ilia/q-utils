@@ -197,7 +197,7 @@ function toRadix(N,radix) {
   var R;
   while (true) {
     R = Q % radix;
-    HexN = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_'.charAt(R) + HexN;
+    HexN = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'.charAt(R) + HexN;
     Q = (Q - R) / radix; 
     if (Q === 0) {
       break;
@@ -217,6 +217,45 @@ function stringHash(str) {
    * integers. Since we want the results to be always positive, convert the
    * signed int to an unsigned by doing an unsigned bitshift. */
   return hash >>> 0;
+}
+
+
+
+
+function decl(number, titles) {
+  var cases = [2, 0, 1, 1, 1, 2];
+  return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
+}
+
+
+function timestamp(timestamp) {
+  return diff(parseInt(now() / 1000) - timestamp);
+}
+function diff(date) {
+  var time, words,
+    minute = 60,
+    hour = 3600,
+    day = 86400,
+    week = 604800,
+    month = 2628000,
+    year = 31536000;
+  if (date < minute) {
+    return '1 минуту';
+  } else if (date < (time = minute) * 60) {
+    words = ['минуту', 'минуты', 'минут'];
+  } else if (date < (time = hour) * 24) {
+    words = ['час', 'часа', 'часов'];
+  } else if (date < (time = day) * 7) {
+    words = ['день', 'дня', 'дней'];
+  } else if (date < (time = week) * 5) {
+    words = ['неделю', 'недели', 'недель'];
+  } else if (date < (time = month) * 12) {
+    words = ['месяц', 'месяца', 'месяцев'];
+  } else if (time = year) {
+    words = ['год', 'года', 'лет'];
+  }
+  var diff = parseInt(date / time);
+  return `${diff} ${decl(diff, words)}`;
 }
 
 exports.extend = extend;
@@ -248,3 +287,6 @@ exports.encode = encode;
 exports.strip_tags = strip_tags;
 exports.toRadix = toRadix;
 exports.stringHash = stringHash;
+exports.decl = decl;
+exports.timestamp = timestamp;
+exports.diff = diff;
