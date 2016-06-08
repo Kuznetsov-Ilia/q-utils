@@ -2,7 +2,8 @@
 
 var myGlobal = require('my-global');
 
-var extend = Object.assign;
+var assign = Object.assign;
+var extend = assign;
 
 function isObject(value) {
   return typeof value === 'object' && value !== null;
@@ -258,6 +259,7 @@ function diff(date) {
   return `${diff} ${decl(diff, words)}`;
 }
 
+exports.assign = assign;
 exports.extend = extend;
 exports.isObject = isObject;
 exports.isEmpty = isEmpty;

@@ -1,7 +1,8 @@
 // inherit.js https://gist.github.com/RubaXa/8857525
 import {window, html as HTML} from 'my-global';
 
-export var extend = Object.assign;
+export var assign = Object.assign;
+export var extend = assign;
 
 export function isObject(value) {
   return typeof value === 'object' && value !== null;
