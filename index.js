@@ -2,6 +2,7 @@
 
 var myGlobal = require('my-global');
 
+const CACHED = {};// loader
 var assign = Object.assign;
 var extend = assign;
 
@@ -259,6 +260,38 @@ function diff(date) {
   return `${diff} ${decl(diff, words)}`;
 }
 
+function loader (src) {
+  if (isArray(src)) {
+    return Promise.all(src.map(loader));
+  }
+  return new Promise(function (resolve, reject) {
+    if (CACHED[src]) {
+      resolve();
+    } else {
+      var script = document.createElement('script');
+      var loadTimer = setTimeout(reject, 5000);
+      var done = false;
+      script.onload = script.onreadystatechange = function () {
+        if (!done && (!this.readyState || this.readyState === 'loaded' || this.readyState === 'complete')) {
+          resolve();
+          clearTimeout(loadTimer);
+          // Handle memory leak in IE
+          script.onload = script.onreadystatechange = null;
+          if (myGlobal.head && script.parentNode) {
+            myGlobal.head.removeChild(script);
+          }
+        }
+      };
+      script.setAttribute('async', '1');
+      script.setAttribute('defer', '1');
+      script.src = src;
+      // Use insertBefore instead of appendChild  to circumvent an IE6 bug.
+      // This arises when a base node is used (#2709 and #4378).
+      myGlobal.head.insertBefore(script, myGlobal.head.firstChild);
+    }
+  });
+}
+
 exports.assign = assign;
 exports.extend = extend;
 exports.isObject = isObject;
@@ -292,3 +325,4 @@ exports.stringHash = stringHash;
 exports.decl = decl;
 exports.timestamp = timestamp;
 exports.diff = diff;
+exports.loader = loader;
