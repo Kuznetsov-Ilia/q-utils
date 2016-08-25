@@ -1,6 +1,6 @@
 {
   "name": "my-util",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "",
   "main": "index.js",
   "jsnext:main": "index.es",
@@ -10,7 +10,7 @@
     "deploy": "git add . && git commit -am 'fix' && git push && npm publish"
   },
   "dependencies": {
-    "my-global": "^1.0.0"  
+    "my-global": "^2.0.0"  
   },
   "devDependencies": {
     "rollup": "*",
