@@ -10,7 +10,7 @@ export function isObject(value) {
 }
 export function isEmpty(obj) {
   if (!isObject(obj)) {
-    return false;
+    return !Boolean(obj);
   }
   for (var i in obj) {
     return false;
@@ -42,7 +42,7 @@ export function isNumber(value) {
   return isset(value) && typeof value === 'number';
 }
 export function isUndefined(value) {
-  return typeof value === undefined;
+  return typeof value === 'undefined';
 }
 export function isset(value) {
   return value !== undefined;
@@ -290,4 +290,30 @@ export function loader (src) {
     }
   });
 }
+var slice = Array.prototype.slice;
+export function toArray(smth) {
+  return slice.call(smth);
+}
+
+export var send = 'sendBeacon' in navigator ? viaSendBeacon : viaImg;
+
+function viaSendBeacon(url, data) {
+  if (typeof data === 'object') {
+    var realData = JSON.stringify(data);
+    setTimeout(() => navigator.sendBeacon(url, realData), 0);
+  }
+}
+
+function viaImg(url, data) {
+  if (typeof data === 'object') {
+    var img = new Image();
+    var params = [];
+    for (var i in data) {
+      params.push(`${i}=${data[i]}`);
+    }
+    var uri = `${url}?${params.join('&')}`;
+    setTimeout(() => img.src = uri.substr(0, 2000), 0);
+  }
+}
+
 
